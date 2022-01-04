@@ -38,12 +38,23 @@ class Limits(Scene):
         dottedLinesGroup1 = VGroup(horizontalLine1, verticalLine1)
         dottedLinesGroup2 = VGroup(horizontalLine2, verticalLine2)
         # Secant line portion
-        secantSlope = axes.get_secant_slope_group(x=2.0, graph=parabolaGraph, dx=1.0, dx_label="dx", dy_label="dy", dx_line_color=ORANGE, dy_line_color=ORANGE, secant_line_length=5, secant_line_color=BLUE)
+        secantSlope = axes.get_secant_slope_group(x=2.0, graph=parabolaGraph, dx=1.0, dx_line_color=ORANGE, dy_line_color=ORANGE, secant_line_length=5, secant_line_color=BLUE)
         self.play(FadeIn(secantSlope))
         self.wait()
         self.play(FadeIn(dottedLinesGroup1))
         self.play(FadeIn(dottedLinesGroup2))
-        self.wait() # Add code for the plus h section, add new slope formula, fade out lines, draw secant line, move dots to zero, apply limit to slope formula, change to dy/dx
+        self.wait() # add new slope formula, fade out lines, move dots to zero, apply limit to slope formula, change to dy/dx
+        
+        # Brace and dot labels section
+        bottomLine = Line(axes.c2p(2, 0), axes.c2p(3, 0))
+        bottomBrace = Brace(bottomLine, direction=bottomLine.copy().rotate(PI / 2).get_unit_vector())
+        bottomBraceText = bottomBrace.get_tex("h")
+        self.add(bottomBrace, bottomBraceText)
+        xText = Tex("x").move_to(axes.c2p(2, -1))
+        xhText = Tex("x+h").move_to(axes.c2p(3, -0.9))
+        fxText = Tex("f(x)").move_to(axes.c2p(-1, 4))
+        fxhText = Tex("f(x+h)").move_to(axes.c2p(-1, 9))
+        self.add(xText, xhText, fxText, fxhText)
         #self.play(FadeOut(dottedLinesGroup1, dottedLinesGroup2))
         self.wait()
         
