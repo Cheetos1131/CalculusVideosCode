@@ -69,29 +69,52 @@ class ConstantFunctionScene(Scene):
         self.play(FadeIn(constantFunctionGroup))
         dot1 = Dot(color=RED).move_to(ax.c2p(2, 2))
         dot2 = Dot(color=RED).move_to(ax.c2p(4, 4))
+        
+        # Fades in the dots for the first time
         self.play(FadeIn(dot1))
         self.play(FadeIn(dot2))
         self.wait()
+        
+        # Fades out the dots so they can be moved and then re-faded in
+        self.play(FadeOut(dot1, dot2))
+        self.wait()
+        
+        # Dot fade in again
         dot1.move_to(ax.c2p(3, 3))
         dot2.move_to(ax.c2p(5, 5))
-        slopeLine = ax.plot(lambda x: x, color=GREEN)
-        self.play(FadeIn(slopeLine))
+        self.play(FadeIn(dot1, dot2))
         self.wait()
+        
+        # Dots are faded out to be moved again
+        self.play(FadeOut(dot1, dot2))
+        self.wait()
+        
+        # Dots move and are re-faded back in
         dot1.move_to(ax.c2p(2, 2))
         dot2.move_to(ax.c2p(4, 4))
+        slopeLine = ax.plot(lambda x: x, color=GREEN)
+        self.play(FadeIn(slopeLine, dot1, dot2))
         self.wait()
+        
+        # Fades out the slope line
         self.play(FadeOut(slopeLine))
         self.wait()
+        
+        # Shows coords and then begins formula sequence
         coordinate1 = MathTex("(2 , 2)").next_to(dot1, UP)
         coordinate2 = MathTex("(4 , 4)").next_to(dot2, UP)
         self.play(FadeIn(coordinate1))
         self.play(FadeIn(coordinate2))
         self.wait()
+        
+        # Creates dy/dx line
         xLine = Line(dot1.get_right(), ax.c2p(4, 2)).set_color(ORANGE)
         yLine = Line(dot2.get_bottom(), xLine.get_right()).set_color(ORANGE)
         lineGroup1 = VGroup(xLine, yLine)
         self.play(FadeIn(lineGroup1))
         self.wait()
+        
+        # Animations of the math formula sequence
         slopeFormula = MathTex("m = \\frac{y_2-y_1}{x_2-x_1}").next_to(ax.c2p(4, 2), RIGHT * 3)
         self.play(FadeIn(slopeFormula))
         self.wait()
